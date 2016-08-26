@@ -15,18 +15,21 @@ head
     
   body
    .page-header
-     .container(align='left')
-      &nbsp;&nbsp;&nbsp;&nbsp;     
-      a.btn.btn-sm.btn-default(href='/logout')
-        span.glyphicon.glyphicon-log-out
-        |  Logout            
-     .container(align='right') 
-      strong   
-       span#welcome_span(style='color: grey;')
-      br      
-      span#language_span(style='color: grey; font-style: italic;') 
-   
-        
+     table
+       tr
+        th
+         img(src='images/notabene_logo.png', width='200', height='100',alt="Nota Bene")
+        th
+         .container(align='right')
+           strong   
+            span#welcome_span(style='color: grey;')
+           br      
+           span#language_span(style='color: grey; font-style: italic;')
+           &nbsp;&nbsp;&nbsp;&nbsp;     
+           a.btn.btn-sm.btn-default(href='/logout')
+             span.glyphicon.glyphicon-log-out
+             |  Logout  
+            
    .mainmenu       
     center
      &nbsp;&nbsp;&nbsp;&nbsp;
@@ -37,6 +40,10 @@ head
      a#settings.btn.btn-sm.btn-primary(href='#')
        span.glyphicon.glyphicon-wrench
        |  Settings
+     &nbsp;&nbsp;&nbsp;&nbsp;
+     a#newtitle.btn.btn-sm.btn-secondary(href='#')
+       span.glyphicon.glyphicon-pencil
+       |  New Title
      &nbsp;&nbsp;&nbsp;&nbsp;  
      span#lines_span(style='color: grey; font-size: 10px;')
      &nbsp;&nbsp;
@@ -48,16 +55,7 @@ head
      &nbsp;&nbsp;&nbsp;&nbsp;
      a#email(href='/email')    
        img(src='images/mail115.png', width='30', height='30',alt="Send to your email account")
-       
-   .container
-    center
-     form(role='form', action="/newtitle",method="post", style='max-width: 30%;')
-       .input-group
-           span#basic-addon1.input-group-addon New Title
-           input.form-control(type='text', name="newtitle", placeholder='Enter New Title')
-       br  
-       button.btn-4(type='submit') Submit
-                       
+      
    .container
     center
      .container(style='padding:2%;') 

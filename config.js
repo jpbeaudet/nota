@@ -6,7 +6,7 @@
 var Config = {
     node_web_server_host: "localhost",
     node_web_server_port: 3000,
-    mongodb_database: 'concured_node_default',
+    mongodb_database: 'passport_local_mongoose',
     mongodb_host : "localhost"
 };
 module.exports = Config;

@@ -87,7 +87,7 @@ db.once('open', function callback () {
  
 // routes
 var username= "";
-require('./routes')(app);
+require('./routes/routes')(app);
 
 
 app.post('/login', function(req, res,next) {
@@ -112,73 +112,22 @@ app.post('/login', function(req, res,next) {
     failureFlash : true // allow flash messages
 }));
 
-app.get('/download_txt', function(req, res){
-	 var file_content,
-	 file_title ;
-	 var fs = require('fs');
-	 var filepath = path.join(__dirname, 'public/tmp/');
-	 var MEMORY = mongoose.model('memory', memoryDb);
-	MEMORY.findOne({ username: username}, function (err, doc){
-		file_content=doc.docA+doc.docB;
-		file_content = file_content.replace('<div>',"").replace('</div>',"\n").replace('&nbsp',"	").replace('</br>',"\n").replace('<br >',"\n");
-
-	 file_title = doc.title+".txt" || "Untitled.txt";
-	 console.log("download has sent title= "+file_title+" content = "+file_content+" at path ="+ filepath);
-	  //var file_title = "title.txt";
-	  var md = file_content;
-	  //var md = "foo===\n* bar\n* baz\n\nThis should be orking when i get text content";
-	fs.writeFile(filepath+ file_title, md, function(err) {
-	    if(err) {
-	        return console.log(err);
-	    }
-	    var file = filepath + file_title;
-		  res.download(file); // Set disposition and send it.
-		 // fs.unlinkSync(file);
-	    console.log("The file was saved!");
-	   
-	}); 
-	});		
-
-});
-
-app.get('/email', function(req, res){
-	 var file_content,
-	 file_title ;
-	 var fs = require('fs');
-	 var util = require('util'),
-	 exec = require('child_process').exec,
-	 child;
-	 var user = username;
-	 var MEMORY = mongoose.model('memory', memoryDb);
+	app.post('/newtitle', function(req, res){
+		var title = req.body.title
+		var MEMORY = mongoose.model('memory', memoryDb);
+			MEMORY.findOne({ username: username}, function (err, doc){
+				var query = {docA:doc.docA, docB:doc.docB, username: username,lastsaveA:doc.lastsaveA,lastsaveB:doc.lastsaveB},
+				    options = { multi: true };
+				  MEMORY.update(query, { docA: doc.docA , docB: doc.docB, username:username,lastsaveA:doc.docA,lastsaveB:doc.docB,title:title}, options, callback);
+				  function callback (err, numAffected) {
+					   //numAffected is the number of updated documents
 	
-	 var filepath = path.join(__dirname, 'public/tmp/');
-	 MEMORY.findOne({ username: username}, function (err, doc){
-		file_content=doc.docA+doc.docB;
-		file_content = file_content.replace('<div>',"").replace('</div>',"\n").replace('&nbsp',"	").replace('</br>',"\n").replace('<br >',"\n");
-		
-		file_title = doc.title+".txt" || "Untitled.txt";
-		var md = file_content;
-		file_title = file_title.replace(/ /g,"");
-		var args= (__dirname + '/script/'+ './sendingmail.sh "'+user+'" "'+file_title+'" "'+filepath+ file_title+'"' );
-		console.log("the request to sh sent = "+args);
-		fs.writeFile(filepath+ file_title, md, function(err) {
-			if(err) {
-			 return console.log(err);
-					}
-			console.log("The file was saved!");
-				child = exec(args,
-				function (error, stdout, stderr) {
-				console.log('stdout: ' + stdout);
-				if (error !== null) {
-					console.log("email was sent to : "+username );
-				}else{
-					console.log('stderr: ' + stderr);	
-					}				    	    
-				});	
-				res.redirect("/home");
-				});
-	 });
-});
+						console.log("new title saving... = "+ doc);
+						res.redirect('/home')
+					};
+			});
+	});
+
 var server = https.createServer(options, app);
 app.set('port', process.env.PORT || config.node_web_server_port);
 console.log(("Express server listening on port " + app.get('port')));

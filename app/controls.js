@@ -146,7 +146,7 @@ $.confirm({
 	
  	}else{ 
         var markupS = [
-                      '<div class="alert alert-info" id="settingsMenu">',
+                      '<br><div class="alert alert-info" id="settingsMenu"><center>',
                       '<h2>',"Settings",'</h2>',
                       '<p>','Here you can changes settings and preferences','</p>',                       
                       '<div id="preference">',
@@ -160,11 +160,11 @@ $.confirm({
                       '<option value="4"> English - Australia </option>',  
                       '<option value="5"> English - New Zeeland </option>',                       
                       '</select>',
-                      '</div></div>'
+                      '</div></center></div>'
                   ].join('');
 
-        $(markupS).hide().appendTo('body').fadeIn();
-        var $test = $('body');
+        $(markupS).hide().appendTo('.mainmenu').fadeIn();
+        var $test = $('.mainmenu');
         $test.update();
         var $test2 = $('div.settingsMenu');
         console.log("body = "+ $test);
@@ -188,6 +188,39 @@ $.confirm({
 		});
 	}
 
+	var newtitle = false;
+	$('#newtitle').click(function(){
+		if(newtitle){
+		newtitle = false; 
+		removeNewTitle();
+		
+		}else{ 
+			newtitle = true
+        var markupS = [
+   			'<div class=".container-fluid"><center><br>',     
+			'<form role="form" action="/newtitle" method="post" id="titleform" style="max-width: 30%;">',
+			'<div class="input-group"><span id="basic-addon1" class="input-group-addon">New Title</span>',
+			'<input type="text" name="title" id="title" placeholder="Enter New Title" class="form-control">',
+			'</div><br>',
+			'<button type="submit" id="submit_title" class="btn-4">Submit</button>',
+			'</form></center></div>'
+				].join('');
+
+        $(markupS).hide().appendTo('.mainmenu').fadeIn();
+        var $test = $('.mainmenu');
+        $test.update();
+		}
+	});
+	
+	$('#submit_title').click(function(){
+		removeNewTitle()
+	});
+	
+	function removeNewTitle(){
+		$('#titleform').fadeOut(function(){
+			$(this).remove();
+		});
+	}
 	 $.fn.update = function(){
 			var newElements = $(this.selector),i;    
 			for(i=0;i<newElements.length;i++){

@@ -8,7 +8,7 @@
 	
 	function MyData (docA,docB,transcript,LastdocA,LastdocB,title){
 		var n = 77;
-		var docAll = docA + docB + transcript;
+		var docAll = docA.trim() + docB.trim() + transcript.trim();
 		var nbDiv=0;
 		if(docAll.match(new RegExp('<div>', 'g'))!= null){
 		nbDiv = (docAll.match(new RegExp('<div>', 'g')).length+1);
@@ -21,7 +21,7 @@
 		this.docA.words = docA.split(" ").length ;
 		this.docB = docB;
 		this.docB.words = docB.split(" ").length;
-		this.wordsTotal = ( docA.split(" ").length + docB.split(" ").length + transcript.split(" ").length);
+		this.wordsTotal = docAll.trim().split(" ").length;
 		this.request = transcript.split(" ");
 		this.request.num = transcript.split(" ").length;
 	}
