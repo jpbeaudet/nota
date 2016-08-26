@@ -1,0 +1,134 @@
+body {
+	height:100%;
+    margin: 0;
+    padding: 0;
+    font: 12pt "Tahoma";
+}
+* {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+.page {
+    width: 21cm;
+    min-height: 29.7cm;
+    padding: 2cm;
+    margin: 1cm auto;
+    border: 1px #3b5998 solid;
+    border-radius: 5px;
+    background: white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+.subpage {
+    padding: 1cm;
+    border: 5px blue solid;
+    height: 256mm;
+    outline: 2cm #749DFC solid;
+}
+.nopage {
+	font-size:16px;
+	margin:auto;
+    width: 90%;
+    height: 65%;
+    padding: 5%;
+    background: white;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.1);
+}
+.nosubpage {	
+    height: 64%;
+}
+.mainmenu {
+	font-family: Arial Black;
+	color: black;
+	padding: 10px;
+	font-size: 12px;
+	left:10%;
+}
+.logindiv {
+	position: relative;
+	margin:auto;
+	top:25%;
+}		
+	
+	
+.nav {
+  position: absolute;
+  height:100%;
+  top: 0;
+  left: 0;
+  border: 2px grey solid;
+  padding: 10px;        
+  background-color: #D8D8D8 ;  
+  width: 25%;
+  transform: translate(0px, 0px);
+  transition: all 1s ease-out;
+  
+}
+
+
+
+
+.nav--active {
+  position: absolute;
+  height:100%;;
+  top: 0;
+  right: 0;
+  border: 2px grey solid;  
+  padding: 10px;     
+  background-color: #D8D8D8 ;
+  width: 25%;
+  transform: translate(0px, 0px);
+  transition: all 1s ease-out;
+}
+footer {
+    background-color: white;
+    position: relative;
+    left: 0;
+    bottom: 0;
+    height: 5%;
+    width: 100%;
+    overflow:hidden;
+}
+@media 
+only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px)  {	
+body {
+	height:100%;
+    margin: 10px;
+    padding: 10px;
+    background-color: #FAFAFA;
+    font: 15pt "Tahoma";
+}
+* {
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+}
+
+.page {
+    width: 90%;
+    height: 60%;
+    padding: 2px;
+    margin: 2px auto;
+    background: white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+.subpage {
+    padding: 1%;
+    height: 59%;
+
+}
+.mainmenu {
+	font-family: Arial Black;
+	color: black;
+	padding: 10px;
+	font-size: 16px;
+}
+.logindiv {
+	position: relative;
+	margin:auto;
+	top:25%;
+}
+
+	
+	
+	}
