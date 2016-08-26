@@ -1,7 +1,7 @@
 doctype html
 html
 head
-    title Smartnotes - Home
+    title Nota - Home
     meta(http-equiv='content-type', content='text/html; charset=utf-8')
     meta(name='description', content='')
     meta(name='keywords', content='')
@@ -29,23 +29,37 @@ head
         
    .mainmenu       
     center
-     &nbsp;&nbsp; 
-     a#commandlist.btn.btn-sm.btn-primary(href='#')
-       span.glyphicon.glyphicon-question-sign
-       |  Help
+     &nbsp;&nbsp;&nbsp;&nbsp;
+     a#newnotes.btn.btn-sm.btn-success(href='javascript: confirmNewText("clear");')
+       span.glyphicon.glyphicon-new-window
+       |  New Notes
      &nbsp;&nbsp;&nbsp;&nbsp;
      a#settings.btn.btn-sm.btn-primary(href='#')
        span.glyphicon.glyphicon-wrench
        |  Settings
-     &nbsp;&nbsp;&nbsp;&nbsp;     
-     a#panel.btn.btn-sm.btn-primary(href='#')
-       span.glyphicon.glyphicon-tasks
-       |  Keypad
+     &nbsp;&nbsp;&nbsp;&nbsp;  
+     span#lines_span(style='color: grey; font-size: 10px;')
      &nbsp;&nbsp;
+     span#words_span(style='color: grey; font-size: 10px;')
+     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   
+     &nbsp;&nbsp;&nbsp;&nbsp;  
+     a#downloadtxt(href='/download_txt') 
+       img(src='images/document263.png', width='30', height='30',alt="Download to txt")     
+     &nbsp;&nbsp;&nbsp;&nbsp;
+     a#email(href='/email')    
+       img(src='images/mail115.png', width='30', height='30',alt="Send to your email account")
+       
+   .container
+    center
+     form(role='form', action="/newtitle",method="post", style='max-width: 30%;')
+       .input-group
+           span#basic-addon1.input-group-addon New Title
+           input.form-control(type='text', name="newtitle", placeholder='Enter New Title')
+       br  
+       button.btn-4(type='submit') Submit
                        
    .container
     center
-     br
      .container(style='padding:2%;') 
       center
        span#button    
@@ -54,27 +68,8 @@ head
     .nopage
      left     
         .nosubpage#page
-         span#lines_span(style='color: grey; font-size: 10px;')
-         &nbsp;&nbsp;
-         span#words_span(style='color: grey; font-size: 10px;')
-         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  
-         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  
-         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                           
-         a#buttonnewtext(href='javascript:controls("clear");')
-           img(src='images/pages.png', width='30', height='30',alt="New text") 
-         &nbsp;&nbsp;&nbsp;&nbsp; 
-         a#download(href='/download') 
-           img(src='images/pdf19.png', width='30', height='30',alt="Download to pdf")
-         &nbsp;&nbsp;&nbsp;&nbsp; 
-         a#downloadtxt(href='/download_txt') 
-           img(src='images/document263.png', width='30', height='30',alt="Download to txt")     
-         &nbsp;&nbsp;&nbsp;&nbsp;
-         a#email(href='/email')    
-           img(src='images/mail115.png', width='30', height='30',alt="Send to your email account")
-         br 
          span#title_span
-         p
-         br 
+         br
          span#docA_span(style='color: black; font-size: 20px;')
          span#interim_span(style='color: grey; font-size: 20px;font-weight: bold;')
          span#icon_span
@@ -85,7 +80,7 @@ head
   footer(style='position:relative;')
    .container(style='color:grey;')
     center
-     p Copyrigth 2015 S3R3NITY Technologies    
+     p Copyrigth 2016 S3R3NITY Technologies    
 
    script(type='text/javascript')     
    script(src='/socket.io/socket.io.js')  

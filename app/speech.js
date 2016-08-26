@@ -1,6 +1,7 @@
 // Author: Jean-Philippe Beaudet @ S3R3NITY Technology
-// Diction4js - Web based hands-free text editor
+// Nota - Web based hands-free text noter
 //
+
 var language = new Array();
 language[0] = "en-EN";
 language[1] = "en-US";
@@ -46,9 +47,9 @@ if ('webkitSpeechRecognition' in window) {
         	toggleStartStop() ;
             txt = event.results[i][0].transcript;
         	interim = ""; 
-        	var isCmd="";
+        	var request="";
         	
-        	var isCmd = controls(txt) ;
+        	var request = controls(txt) ;
         	restart(); 
         	
         	
@@ -58,18 +59,17 @@ if ('webkitSpeechRecognition' in window) {
             
       } 
        
-   //   final_span.innerHTML = " @@@->  " + txt + "  <-@@@ ";
       interim_span.innerHTML = interim;
       icon_span.innerHTML = "<img src='images/blinking-cursor.GIF', height='25'>";
       
     }; 
 
     
-    function reset() {
-    button = document.getElementById("button");
-  	  recognizing = false;
-  	  button.innerHTML = "<a href='javascript:toggleStartStop();' id='button' class='btn btn-block btn-lg btn-success'><span class='glyphicon glyphicon-record'></span> Start Now ! </a>";
-  	}
+	function reset() {
+		button = document.getElementById("button");
+		recognizing = false;
+		button.innerHTML = "<a href='javascript:toggleStartStop();' id='button' class='btn btn-block btn-lg btn-success'><span class='glyphicon glyphicon-record'></span> Start Now ! </a>";
+	}
 
   	function toggleStartStop() {
   		console.log("toggleStartStop has been exited");
@@ -90,12 +90,3 @@ if ('webkitSpeechRecognition' in window) {
 	 }else{
 		 window.open("/oups");
 	 }
-   
-
-	
-        
-
-
-
-
-	

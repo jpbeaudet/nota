@@ -1,7 +1,6 @@
 // Author: Jean-Philippe Beaudet @ S3R3NITY Technology
-// Diction4js - Web based hands-free text editor
+// Nota - Web based hands-free text noter
 //
-
 
 // dependencies
 
@@ -22,6 +21,7 @@ var expressValidator = require('express-validator');
 var flash    = require('connect-flash');
 var EXPRESS_SID_KEY = 'express.sid';
 var COOKIE_SECRET ='J976dd78Hffr#$%68h';
+var config = require('./config.js');
 
 var options = {
 		  key: fs.readFileSync('var/keys/server.key'),
@@ -76,7 +76,7 @@ passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
 // mongoose
-mongoose.connect('mongodb://localhost/passport_local_mongoose');
+mongoose.connect('mongodb://'+config.mongodb_host+'/'+config.mongodb_database);
 
 var memoryDb = require('./models/save');
 var db = mongoose.connection;
@@ -112,32 +112,6 @@ app.post('/login', function(req, res,next) {
     failureFlash : true // allow flash messages
 }));
 
-app.get('/download', function(req, res){
-	  var MEMORY = mongoose.model('memory', memoryDb);
-	  var path = require('path');
-	  var fs = require('fs');
-	  var file_content;
-	  var file_title ;
-	  MEMORY.findOne({ username: username}, function (err, doc){
-		  file_content=doc.docA+doc.docB;
-	      file_content = file_content.replace('<div>',"").replace('</div>',"\n").replace('&nbsp',"	").replace('</br>',"\n").replace('<br >',"\n");
-		  file_title = doc.title+".pdf" || "Untitled.pdf";
-	
-	  
-	  var filepath = path.join(__dirname, 'public/tmp/');
-	  //var md = "foo===\n* bar\n* baz\n\nThis should be orking when i get text content"
-	  console.log("download has sent title= "+file_title+" content = "+file_content+"at path ="+ filepath);
-	 var md = file_content
-	    //var outputPath = filepath + "title.pdf";
-	   var outputPath = filepath +  file_title;
-	  markdownpdf().from.string(md).to(outputPath, function () {
-	    console.log("Created", outputPath);
-		  var file = filepath +  file_title;
-		  res.download(file); // Set disposition and send it.
-	  });
-	  });
-	});
-
 app.get('/download_txt', function(req, res){
 	 var file_content,
 	 file_title ;
@@ -166,6 +140,7 @@ app.get('/download_txt', function(req, res){
 	});		
 
 });
+
 app.get('/email', function(req, res){
 	 var file_content,
 	 file_title ;
@@ -189,25 +164,23 @@ app.get('/email', function(req, res){
 		fs.writeFile(filepath+ file_title, md, function(err) {
 			if(err) {
 			 return console.log(err);
-				    }
+					}
 			console.log("The file was saved!");
-				 child = exec(args,
-				    function (error, stdout, stderr) {
-				    console.log('stdout: ' + stdout);
-				    
-				    if (error !== null) {
-				     console.log("email was sent to : "+username );
-
-				    }else{
-				    	console.log('stderr: ' + stderr);	
-				    }				    	    
-				    });	
-				 res.redirect("/home");
-					});
+				child = exec(args,
+				function (error, stdout, stderr) {
+				console.log('stdout: ' + stdout);
+				if (error !== null) {
+					console.log("email was sent to : "+username );
+				}else{
+					console.log('stderr: ' + stderr);	
+					}				    	    
+				});	
+				res.redirect("/home");
+				});
 	 });
 });
 var server = https.createServer(options, app);
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || config.node_web_server_port);
 console.log(("Express server listening on port " + app.get('port')));
 
 
@@ -227,37 +200,33 @@ io.on('connection', function(socket){
 
 	});
 	
-	    socket.on("load",function(data){
-	    	//socket.join(username);
-	    	MEMORY.findOne({ username: username}, function (err, doc){
-	    		
-	    	if(doc != null){
-	    	socket.emit("res.load", [doc.docA, doc.docB,username,doc.title]);  
-	    	}else{
-	    	var Memory = new MEMORY({ docA: "", docB: "" , username: username,lastsaveA:"",lastsaveB:"",title:"Untitled"});
+		socket.on("load",function(data){
+			//socket.join(username);
+			MEMORY.findOne({ username: username}, function (err, doc){
+				
+			if(doc != null){
+			socket.emit("res.load", [doc.docA, doc.docB,username,doc.title]);  
+			}else{
+			var Memory = new MEMORY({ docA: "", docB: "" , username: username,lastsaveA:"",lastsaveB:"",title:"Untitled"});
 			Memory.save(function (err, Memory) {
 			if (err) return console.error(err);
 			});
-	    	socket.emit("res.load", ["", "", username,"Untitled"]);   
+			socket.emit("res.load", ["", "", username,"Untitled"]);   
 			//socket.to(username).emit("res.load", ["", "",username]);  
-	        }				  
-			});	    	
-	    });
-	    
-	    socket.on("newtext",function(data){
+			} 
+			});
+		});
+
+		socket.on("newtext",function(data){
 			MEMORY.findOne({ username: username}, function (err, doc){
 				var query = {docA:doc.docA, docB:doc.docB, username: username,lastsave:doc.lastsave},
-				    options = { multi: true };
-				  console.log(" query =  :"+ query);
-				
-				  MEMORY.update(query, { docA: "", docB: "", username: username,lastsaveA:"",lastsaveB:"",title:"Untitled"}, options, callback);
-				  function callback (err, numAffected) {
-					   //numAffected is the number of updated documents
-		
+					options = { multi: true };
+					console.log(" query =  :"+ query);
+					MEMORY.update(query, { docA: "", docB: "", username: username,lastsaveA:"",lastsaveB:"",title:"Untitled"}, options, callback);
+					function callback (err, numAffected) {
 					};
-			});	
-	    });
-
+			});
+		});
 
 		socket.on("request",function(data){
 			MEMORY.findOne({ username: username}, function (err, doc){
@@ -269,14 +238,12 @@ io.on('connection', function(socket){
 					console.log("doc.docB>> request = "+ doc.docB);
 				  socket.emit("response", [doc.docA, doc.docB,doc.lastsaveA,doc.lastsaveB,doc.title]);
 				  //socket.to(username).emit("response", [doc.docA, doc.docB,doc.lastsaveA,doc.lastsaveB]);
-
 			});
-
 		
 		});
-
+		
 		var lock;
- var lock2;
+		var lock2;
 		socket.on("save",function(data){
 		console.log("save has fire()--------------------------------->>")
 			
@@ -305,36 +272,10 @@ io.on('connection', function(socket){
 						console.log("memory B >> db= "+ doc.docB );
 						console.log("username >> save= "+ username);
 					};
-			});}
-
-
-				
-		});
-		
-		socket.on("cmd",function(data){			
-						
-			memory.docA = data[0];
-			memory.docB = data[1];
-			var title = data[2];
-			
-			MEMORY.findOne({ username: username}, function (err, doc){
-				var query = {docA:doc.docA, docB:doc.docB, username: username,lastsaveA:doc.lastsaveA,lastsaveB:doc.lastsaveB},
-				    options = { multi: true };
-				  //console.log(" query =  :"+ query);
-
-				  MEMORY.update(query, { docA: memory.docA , docB: memory.docB, username: username, title:title}, options, callback);
-				  //MEMORY.update(query, { docA: memory.docA , docB: memory.docB, username: username,lastsaveA:doc.lastsaveA,lastsaveB:doc.lastsaveB}, options, callback);
-				  function callback (err, numAffected) {
-					   //numAffected is the number of updated documents
-						console.log("lastsave A >> command after update = "+ doc.lastsaveA );
-						console.log("lastsave B >> command after update = "+ doc.lastsaveB );
-						console.log("memory A >> cmd= "+ memory.docA );
-						console.log("memory B >> cmd= "+ memory.docB );
-					};
 			});
-			});	
-		
+			}
+		});
 });
 
 
-server.listen(3000);
+server.listen(config.node_web_server_port);
