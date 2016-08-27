@@ -14,7 +14,7 @@ html(lang='en')
     link(href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic', rel='stylesheet', type='text/css')
     link(href='https://fonts.googleapis.com/css?family=Montserrat:400,700', rel='stylesheet', type='text/css')
     // Theme CSS
-    link(href='css/grayscale.min.css', rel='stylesheet')
+    link(href='css/grayscale.css', rel='stylesheet')
     link(rel='stylesheet', href='css/jquery.confirm.css')
     script(src='js/jquery-1.11.1.min.js')
     // HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries
@@ -28,7 +28,7 @@ html(lang='en')
 
    nav.navbar.navbar-custom.navbar-fixed-top(role='navigation')
      .container
-       .navbar-header
+       .navbar-header#top
          button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-main-collapse')
            | Menu 
            i.fa.fa-bars
@@ -43,35 +43,33 @@ html(lang='en')
            li.hidden
              a(href='#page-top')
            li
-             a#newnotes.btn.btn-sm.btn-default(href='javascript: confirmNewText("clear");')
+             a#newnotes.page-scroll(href='javascript: confirmNewText("clear");')
                span.glyphicon.glyphicon-new-window
                |  New Notes
                &nbsp;&nbsp;
            li
-             a#settings.btn.btn-sm.btn-default(href='#')
+             a#settings.page-scroll(href='#')
                span.glyphicon.glyphicon-wrench
                |  Settings
                &nbsp;&nbsp;
            li
-             a#newtitle.btn.btn-sm.btn-default(href='#')
+             a#newtitle.page-scroll(href='#')
                span.glyphicon.glyphicon-pencil
                |  New Title
                &nbsp;&nbsp;
            li
-             a.btn.btn-sm.btn-default(href='/logout')
+             a.page-scroll(href='/logout')
                span.glyphicon.glyphicon-log-out
                |  Sign Out
                &nbsp;&nbsp;
 
        // /.navbar-collapse
-   .container(style='padding-top:10%;')
+   .notawrapper
     center
      table
        tr
         th
          .mainmenu       
-           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   
-           &nbsp;&nbsp;&nbsp;&nbsp;
            a#downloadtxt.btn.btn-sm.btn-default(href='/download_txt')
              span.glyphicon.glyphicon-download-alt
              |  Download Txt 
@@ -80,12 +78,10 @@ html(lang='en')
              span.glyphicon.glyphicon-envelope
              |  Send to my email
         th
-         .mainmenu
-           &nbsp;&nbsp;&nbsp;&nbsp; 
+         .mainmenu(style="margin:10px;")
            strong   
              span#welcome_span(style='color: white;')  
            br
-           &nbsp;&nbsp;&nbsp;&nbsp;
            span#language_span(style='color: white; font-style: italic;')
       
    .container#startstop

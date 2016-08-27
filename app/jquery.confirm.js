@@ -19,11 +19,12 @@
             }
         });
 
-        var markup = [       
-            '<div  id="confirmOverlay">',
+        var markup = [
+  
+            '<div id="confirmOverlay">',
             '<div id="confirmBox">',
-            '<h1>',params.title,'</h1>',
-            '<p>',params.message,'</p>',
+            '<center><h1>',params.title,'</h1>',
+            '<p>',params.message,'</p></center>',
             '<div id="confirmButtons">',
             buttonHTML,
             '</div></div></div>'

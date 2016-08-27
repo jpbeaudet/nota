@@ -147,11 +147,14 @@ $.confirm({
  	}else{ 
         var markupS = [
                       '<br><div class="alert alert-success" id="settingsMenu" style="margin:3em;"><center>',
-                      '<button type="button" class="close" data-dismiss="alert" aria-label="Close">',
-                      ' <span aria-hidden="true">&times;</span></button>',
+
+                      '<div class=".container">',
                       '<h2>',"Settings",'</h2>',
-                      '<p>','Here you can changes settings and preferences','</p>',                       
+                      '<p>','Here you can changes settings and preferences','</p>',  
+                      '<button type="button" class="close" data-dismiss="alert" aria-label="Close">',
+                      ' <span aria-hidden="true">&nbsp; Close</span></button>',                   
                       '<div id="preference">',
+
                       '<h3>',"Language",'</h3>',
                       '<p>','Select your region for better results !','</p>',                       
                       '<select id="language" name="language">',
@@ -162,7 +165,7 @@ $.confirm({
                       '<option value="4"> English - Australia </option>',  
                       '<option value="5"> English - New Zeeland </option>',                       
                       '</select>',
-                      '</div></center></div>'
+                      '</div></center></div></div>'
                   ].join('');
 
         $(markupS).hide().prependTo('#startstop').fadeIn();
@@ -199,8 +202,10 @@ $.confirm({
 		}else{ 
 			newtitle = true
         var markupS = [
-   			'<div class=".container-fluid"><center><br>',     
-			'<form role="form" action="/newtitle" method="post" id="titleform" style="max-width: 30%;">',
+   			'<div class="alert alert-success" id="titlediv"><center><br>',
+            '<button type="button" class="close" data-dismiss="alert" aria-label="Close">',
+            ' <span aria-hidden="true">&nbsp; Close</span></button>',
+			'<form role="form" action="/newtitle" method="post" id="titleform" style="max-width: 100%;">',
 			'<div class="input-group"><span id="basic-addon1" class="input-group-addon">New Title</span>',
 			'<input type="text" name="title" id="title" placeholder="Enter New Title" class="form-control">',
 			'</div><br>',
@@ -208,7 +213,7 @@ $.confirm({
 			'</form></center></div>'
 				].join('');
 
-        $(markupS).hide().prependTo('#startstop').fadeIn();
+        $(markupS).hide().prependTo('#title_span').fadeIn();
         var $test = $('.mainmenu');
         $test.update();
 		}
@@ -219,7 +224,7 @@ $.confirm({
 	});
 	
 	function removeNewTitle(){
-		$('#titleform').fadeOut(function(){
+		$('#titlediv').fadeOut(function(){
 			$(this).remove();
 		});
 	}
