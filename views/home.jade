@@ -66,24 +66,16 @@ html(lang='en')
        // /.navbar-collapse
    .notawrapper(style='padding-right:8%;padding-left:8%;')
     center
-     table
-       tr
-        th
-         .mainmenu       
-           a#downloadtxt.btn.btn-sm.btn-default(href='/download_txt')
-             span.glyphicon.glyphicon-download-alt
-             |  Download Txt 
-           &nbsp;&nbsp;&nbsp;&nbsp;
-           a#email.btn.btn-sm.btn-default(href='/email')
-             span.glyphicon.glyphicon-envelope
-             |  Send to my email
-        th
-         .mainmenu(style="margin:10px;")
-           strong   
-             span#welcome_span(style='color: white;')  
-           br
-           span#language_span(style='color: white; font-style: italic;')
-      
+      .mainmenu       
+        a#downloadtxt.btn.btn-sm.btn-default(href='/download_txt')
+          span.glyphicon.glyphicon-download-alt
+          |  Download Txt 
+        &nbsp;&nbsp;&nbsp;&nbsp;
+        a#email.btn.btn-sm.btn-default(href='/email')
+          span.glyphicon.glyphicon-envelope
+          |  To my email 
+
+
    .container#startstop
     center
      .container(style='padding-top:2%;')
@@ -92,8 +84,13 @@ html(lang='en')
        br
                
    .container(style='padding-right:10%;padding-left:10%;padding-top:2%;')
-     left     
+     left 
         .nosubpage#page
+         strong   
+           span#welcome_span(style='color: white;')  
+         br
+         span#language_span(style='color: white; font-style: italic;')
+         br 
          span#title_span
          span#docA_span(style='color: white; font-size: 20px;')
          span#interim_span(style='color: turquoise; font-size: 20px;font-weight: bold;')
