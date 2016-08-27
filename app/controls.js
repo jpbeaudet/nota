@@ -38,7 +38,7 @@ window.onload = function()
 		icon_span.innerHTML = "<img src='images/blinking-cursor.GIF', height='25'>";
 		docA_span.innerHTML = docA;
 	    docB_span.innerHTML = docB;	
-		lines_span.innerHTML = "Lines: ";
+		//lines_span.innerHTML = "Lines: ";
 		words_span.innerHTML = " Words: ";	    
 	    restart();
 });
@@ -63,7 +63,7 @@ window.onload = function()
 			  transcript = "<div><br \></div>";
 		  }
 		  index = new MyData (docA,docB,transcript,LastdocA,LastdocB,title);
-		  lines_span.innerHTML = "Lines: "+ index.lines;
+		  //lines_span.innerHTML = "Lines: "+ index.lines;
 		  words_span.innerHTML = " Words: "+ index.wordsTotal;
 		  console.log('lastsaveA = '+index.LastdocA);
 		  console.log('lastsaveB = '+index.LastdocB);
