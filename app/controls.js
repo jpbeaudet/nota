@@ -104,7 +104,7 @@ function resp(data, index){
 //Confirmation section :
 //-------------------------------------------------------------------
 //
-
+     
  function confirmNewText(index)	{      
 	
 $.confirm({
@@ -146,7 +146,9 @@ $.confirm({
 	
  	}else{ 
         var markupS = [
-                      '<br><div class="alert alert-info" id="settingsMenu"><center>',
+                      '<br><div class="alert alert-success" id="settingsMenu" style="margin:3em;"><center>',
+                      '<button type="button" class="close" data-dismiss="alert" aria-label="Close">',
+                      ' <span aria-hidden="true">&times;</span></button>',
                       '<h2>',"Settings",'</h2>',
                       '<p>','Here you can changes settings and preferences','</p>',                       
                       '<div id="preference">',
@@ -202,7 +204,7 @@ $.confirm({
 			'<div class="input-group"><span id="basic-addon1" class="input-group-addon">New Title</span>',
 			'<input type="text" name="title" id="title" placeholder="Enter New Title" class="form-control">',
 			'</div><br>',
-			'<button type="submit" id="submit_title" class="btn-4">Submit</button>',
+			'<button type="submit" id="submit_title" class="btn btn-default">Submit</button>',
 			'</form></center></div>'
 				].join('');
 
@@ -232,3 +234,4 @@ $.confirm({
 			this.length = newElements.length;
 			return this;
 		};
+

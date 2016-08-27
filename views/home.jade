@@ -1,60 +1,76 @@
 doctype html
-html
-head
-    title Nota - Home
-    meta(http-equiv='content-type', content='text/html; charset=utf-8')
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    meta(http-equiv='X-UA-Compatible', content='IE=edge')
+    meta(name='viewport', content='width=device-width, initial-scale=1')
     meta(name='description', content='')
-    meta(name='keywords', content='')
-    link(href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400italic,700,900', rel='stylesheet')
-    link(href='https://fonts.googleapis.com/css?family=Cuprum&subset=latin', rel='stylesheet', type='text/css')
-    link(rel='stylesheet', href='css/style_home.css')
-    link(rel='stylesheet', href='css/nav.css')    
+    meta(name='author', content='')
+    title Nota Bene
+    // Bootstrap Core CSS
+    link(href='vendor/bootstrap/css/bootstrap.min.css', rel='stylesheet')
+    // Custom Fonts
+    link(href='vendor/font-awesome/css/font-awesome.min.css', rel='stylesheet', type='text/css')
+    link(href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic', rel='stylesheet', type='text/css')
+    link(href='https://fonts.googleapis.com/css?family=Montserrat:400,700', rel='stylesheet', type='text/css')
+    // Theme CSS
+    link(href='css/grayscale.min.css', rel='stylesheet')
     link(rel='stylesheet', href='css/jquery.confirm.css')
-    link(rel='stylesheet', href='css/bootstrap.min.css')
     script(src='js/jquery-1.11.1.min.js')
+    // HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries
+    // WARNING: Respond.js doesn't work if you view the page via file://
+    //if lt IE 9
+      script(src='https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js')
+      script(src='https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js')
+
     
   body
    .page-header
      table
        tr
         th
-         img(src='images/notabene_logo.png', width='200', height='100',alt="Nota Bene")
+         a.navbar-brand.page-scroll(href='#page-top')
+           i.fa.fa-play-circle(style='color:turquoise')
+           span.light(style='color:white')   Nota Bene
         th
-         .container(align='right')
+         .container(align='right', style='padding:0.1em')
            strong   
-            span#welcome_span(style='color: grey;')
-           br      
-           span#language_span(style='color: grey; font-style: italic;')
-           &nbsp;&nbsp;&nbsp;&nbsp;     
-           a.btn.btn-sm.btn-default(href='/logout')
-             span.glyphicon.glyphicon-log-out
-             |  Logout  
+            span#welcome_span(style='color: white;')
+         .container(align='right')    
+           span#language_span(style='color: white; font-style: italic;')
+  
             
    .mainmenu       
     center
      &nbsp;&nbsp;&nbsp;&nbsp;
-     a#newnotes.btn.btn-sm.btn-success(href='javascript: confirmNewText("clear");')
+     a#newnotes.btn.btn-sm.btn-default(href='javascript: confirmNewText("clear");')
        span.glyphicon.glyphicon-new-window
        |  New Notes
      &nbsp;&nbsp;&nbsp;&nbsp;
-     a#settings.btn.btn-sm.btn-primary(href='#')
+     a#settings.btn.btn-sm.btn-default(href='#')
        span.glyphicon.glyphicon-wrench
        |  Settings
      &nbsp;&nbsp;&nbsp;&nbsp;
-     a#newtitle.btn.btn-sm.btn-secondary(href='#')
+     a#newtitle.btn.btn-sm.btn-default(href='#')
        span.glyphicon.glyphicon-pencil
        |  New Title
      &nbsp;&nbsp;&nbsp;&nbsp;  
-     span#lines_span(style='color: grey; font-size: 10px;')
+     span#lines_span(style='color: turquoise; font-size: 10px;')
      &nbsp;&nbsp;
-     span#words_span(style='color: grey; font-size: 10px;')
+     span#words_span(style='color: turquoise; font-size: 10px;')
      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   
-     &nbsp;&nbsp;&nbsp;&nbsp;  
-     a#downloadtxt(href='/download_txt') 
-       img(src='images/document263.png', width='30', height='30',alt="Download to txt")     
      &nbsp;&nbsp;&nbsp;&nbsp;
-     a#email(href='/email')    
-       img(src='images/mail115.png', width='30', height='30',alt="Send to your email account")
+     a#downloadtxt.btn.btn-sm.btn-default(href='/download_txt')
+       span.glyphicon.glyphicon-download-alt
+       |  Download Txt 
+     &nbsp;&nbsp;&nbsp;&nbsp;
+     a#email.btn.btn-sm.btn-default(href='/email')
+       span.glyphicon.glyphicon-envelope
+       |  Send to my email
+     &nbsp;&nbsp;&nbsp;&nbsp;     
+     a.btn.btn-sm.btn-default(href='/logout')
+       span.glyphicon.glyphicon-log-out
+       |  Sign Out
       
    .container
     center
@@ -68,17 +84,17 @@ head
         .nosubpage#page
          span#title_span
          br
-         span#docA_span(style='color: black; font-size: 20px;')
-         span#interim_span(style='color: grey; font-size: 20px;font-weight: bold;')
+         span#docA_span(style='color: white; font-size: 20px;')
+         span#interim_span(style='color: turquoise; font-size: 20px;font-weight: bold;')
          span#icon_span
-         span#manual_span(style='color: black; font-size: 20px;')    
-         span#docB_span(style='color: black; font-size: 20px;')
+         span#manual_span(style='color: white; font-size: 20px;')    
+         span#docB_span(style='color: white; font-size: 20px;')
          br       
      .clear_all 
   footer(style='position:relative;')
-   .container(style='color:grey;')
+   .container(style='color:turquoise;')
     center
-     p Copyrigth 2016 S3R3NITY Technologies    
+     a(href='http://s3r3nity.com',target='_blank') Copyrigth 2016 S3R3NITY Technologies    
 
    script(type='text/javascript')     
    script(src='/socket.io/socket.io.js')  
@@ -91,5 +107,6 @@ head
    script(src='js/bootstrap.min.js')   
    script
      var domain = document.domain;
-     document.domain = "54.68.32.250"
+     document.domain = "localhost"
      
+
