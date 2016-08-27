@@ -69,18 +69,19 @@ html(lang='en')
           h2 About Nota Bene
           p
             | Nota is a hand's free and easy way to take notes verbally and send them to yourself.
-            | It is totally free, no publicity.
-            | Based on google speech api, node.js/express and socket.io and jQuery
+            | It is totally free with no publicity. More features will be integrated along the way if this get to be useful to enougth folks
+          p Based on google-speech-api, node.js/express/mongo, socket.io, jade and jQuery
           
-          h3(style='font-style:Bold;') Beta version features:
-          p(style='font-style:italic;') - Download your note trough txt format
-          p(style='font-style:italic;') - Send to your email account
-          h3(style='font-style:Bold;') Coming Soon :
-          p(style='font-style:italic;') - Login with Goggle
-          p(style='font-style:italic;') - Download your note trough pdf
-          p(style='font-style:italic;') - Send to via sms
-          p(style='font-style:italic;') - Upload to your Google Drive
-          p(style='font-style:italic;') - Upload to your Evernote account
+          h3(style='font-style:Bold;color:turquoise;') Beta version features:
+          p  Download your note trough txt format
+          p  Send to your email account
+          h3(style='font-style:Bold;color:turquoise;') Coming Soon :
+          p  Save multiple notes
+          p  Login with Goggle
+          p Download your note trough pdf
+          p  Send to via sms
+          p  Upload to your Google Drive
+          p  Upload to your Evernote account
 
     // Contact Section
     section#contact.container.content-section.text-center
@@ -103,8 +104,9 @@ html(lang='en')
 
     // Footer
     footer
-      .container.text-center
-        p Copyright © S3R3NITY Technologies 2016
+     .container(style='color:turquoise;')
+      center
+       a(href='http://s3r3nity.com',target='_blank') Copyrigth 2016 S3R3NITY Technologies  
     // jQuery
     script(src='vendor/jquery/jquery.js')
     // Bootstrap Core JavaScript
