@@ -13,15 +13,15 @@ Take your note hands-free
 * Install node.js
 * Install the package.json `npm install`
 * Install mongoDb
-    "express": "~3.3.4",
-    "jade": "~0.34.1",
-    "passport": "~0.1.18",
-    "passport-local": "~0.1.6",
-    "mongoose": "~3.8.5",
-    "passport-local-mongoose": "~0.2.5",
-    "socket.io": "~1.4.8 ",
-    "connect-flash": "~0.1.1",
-    "path": "~0.12.7"
+** "express": "~3.3.4",
+** "jade": "~0.34.1",
+** "passport": "~0.1.18",
+** "passport-local": "~0.1.6",
+** "mongoose": "~3.8.5",
+** "passport-local-mongoose": "~0.2.5",
+** "socket.io": "~1.4.8 ",
+** "connect-flash": "~0.1.1",
+** "path": "~0.12.7"
 
 ## Installation:
 1. Download zip and extract in the wanted directory or clone the repository
