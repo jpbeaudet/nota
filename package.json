@@ -1,25 +1,22 @@
 {
-  "name": "node-bootstrap3-template",
-  "version": "0.0.1",
-  "description": "A template for express, NodeJS and twitter bootstrap 3",
+  "name": "Nota Bene",
+  "version": "1.0.0",
+  "description": "Hand's free verbal notes",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
-    "test": "make test"
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:mjhea0/node-bootstrap3-template.git"
+    "url": "https://github.com/jpbeaudet/nota"
   },
   "keywords": [
-    "nodejs",
-    "express",
-    "template",
-    "twitter",
-    "bootstrap",
-    "bootstrap3"
+    "diction",
+    "nota",
+    "notes",
+    "speech-to-text"
   ],
-  "author": "Michael Herman <michael@mherman.org>",
+  "author": "Jean-Philippe Beaudet <jpbeaudet@s3r3nity.com>",
   "license": "MIT",
   "dependencies": {
     "express": "~3.3.4",
@@ -28,17 +25,8 @@
     "passport-local": "~0.1.6",
     "mongoose": "~3.8.5",
     "passport-local-mongoose": "~0.2.5",
-    "mocha": "~1.14.0",
-    "chai": "~1.8.1",
-    "should": "~2.1.0",
-    "install": "~0.1.7",
-    "npm": "~1.3.25",
-    "mongodb": "~1.3.23",
-    "natural": " ",
-    "wordpos": " ",
-    "socket.io": " ",
-    "solr-client": " ",
-    "underscore": " ",
-    "formidable": " "
+    "socket.io": "~1.4.8 ",
+    "connect-flash": "~0.1.1",
+    "path": "~0.12.7"
   }
 }
