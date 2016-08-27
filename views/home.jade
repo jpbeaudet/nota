@@ -25,51 +25,70 @@ html(lang='en')
 
     
   body
-   .page-header
+
+   nav.navbar.navbar-custom.navbar-fixed-top(role='navigation')
+     .container
+       .navbar-header
+         button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-main-collapse')
+           | Menu 
+           i.fa.fa-bars
+         a.navbar-brand.page-scroll(href='#page-top')
+           i.fa.fa-play-circle(style='color:turquoise')
+           span.light   Nota
+           |  Bene
+       // Collect the nav links, forms, and other content for toggling
+       .collapse.navbar-collapse.navbar-right.navbar-main-collapse
+         ul.nav.navbar-nav
+           // Hidden li included to remove active class from about link when scrolled up past about section
+           li.hidden
+             a(href='#page-top')
+           li
+             a#newnotes.btn.btn-sm.btn-default(href='javascript: confirmNewText("clear");')
+               span.glyphicon.glyphicon-new-window
+               |  New Notes
+               &nbsp;&nbsp;
+           li
+             a#settings.btn.btn-sm.btn-default(href='#')
+               span.glyphicon.glyphicon-wrench
+               |  Settings
+               &nbsp;&nbsp;
+           li
+             a#newtitle.btn.btn-sm.btn-default(href='#')
+               span.glyphicon.glyphicon-pencil
+               |  New Title
+               &nbsp;&nbsp;
+           li
+             a.btn.btn-sm.btn-default(href='/logout')
+               span.glyphicon.glyphicon-log-out
+               |  Sign Out
+               &nbsp;&nbsp;
+
+       // /.navbar-collapse
+   .container(style='padding-top:10%;')
+    center
      table
        tr
         th
-         a.navbar-brand.page-scroll(href='#page-top')
-           i.fa.fa-play-circle(style='color:turquoise')
-           span.light(style='color:white')   Nota Bene
+         .mainmenu       
+           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   
+           &nbsp;&nbsp;&nbsp;&nbsp;
+           a#downloadtxt.btn.btn-sm.btn-default(href='/download_txt')
+             span.glyphicon.glyphicon-download-alt
+             |  Download Txt 
+           &nbsp;&nbsp;&nbsp;&nbsp;
+           a#email.btn.btn-sm.btn-default(href='/email')
+             span.glyphicon.glyphicon-envelope
+             |  Send to my email
         th
-         .container(align='right', style='padding:0.1em')
+         .mainmenu
+           &nbsp;&nbsp;&nbsp;&nbsp; 
            strong   
-            span#welcome_span(style='color: white;')
-         .container(align='right')    
+             span#welcome_span(style='color: white;')  
+           br
+           &nbsp;&nbsp;&nbsp;&nbsp;
            span#language_span(style='color: white; font-style: italic;')
-  
-            
-   .mainmenu       
-    center
-     &nbsp;&nbsp;&nbsp;&nbsp;
-     a#newnotes.btn.btn-sm.btn-default(href='javascript: confirmNewText("clear");')
-       span.glyphicon.glyphicon-new-window
-       |  New Notes
-     &nbsp;&nbsp;&nbsp;&nbsp;
-     a#settings.btn.btn-sm.btn-default(href='#')
-       span.glyphicon.glyphicon-wrench
-       |  Settings
-     &nbsp;&nbsp;&nbsp;&nbsp;
-     a#newtitle.btn.btn-sm.btn-default(href='#')
-       span.glyphicon.glyphicon-pencil
-       |  New Title
-
-     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   
-     &nbsp;&nbsp;&nbsp;&nbsp;
-     a#downloadtxt.btn.btn-sm.btn-default(href='/download_txt')
-       span.glyphicon.glyphicon-download-alt
-       |  Download Txt 
-     &nbsp;&nbsp;&nbsp;&nbsp;
-     a#email.btn.btn-sm.btn-default(href='/email')
-       span.glyphicon.glyphicon-envelope
-       |  Send to my email
-     &nbsp;&nbsp;&nbsp;&nbsp;     
-     a.btn.btn-sm.btn-default(href='/logout')
-       span.glyphicon.glyphicon-log-out
-       |  Sign Out
       
-   .container
+   .container#startstop
     center
      .container(style='padding:2%;') 
       center
@@ -80,7 +99,6 @@ html(lang='en')
      left     
         .nosubpage#page
          span#title_span
-         br
          span#docA_span(style='color: white; font-size: 20px;')
          span#interim_span(style='color: turquoise; font-size: 20px;font-weight: bold;')
          span#icon_span

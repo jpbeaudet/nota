@@ -165,7 +165,7 @@ $.confirm({
                       '</div></center></div>'
                   ].join('');
 
-        $(markupS).hide().appendTo('.mainmenu').fadeIn();
+        $(markupS).hide().prependTo('#startstop').fadeIn();
         var $test = $('.mainmenu');
         $test.update();
         var $test2 = $('div.settingsMenu');
@@ -208,7 +208,7 @@ $.confirm({
 			'</form></center></div>'
 				].join('');
 
-        $(markupS).hide().appendTo('.mainmenu').fadeIn();
+        $(markupS).hide().prependTo('#startstop').fadeIn();
         var $test = $('.mainmenu');
         $test.update();
 		}
