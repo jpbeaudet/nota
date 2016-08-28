@@ -41,9 +41,24 @@ languageFlag[9]= "<img src='img/bz.png'>"
 language[10] = "es-ES";
 languageIndex [10] = "Español - España";
 languageFlag[10]= "<img src='img/es.png'>"
-language[10] = "es-ES";
+language[11] = "es-MX";
 languageIndex [11] = "Español - México";
 languageFlag[11]= "<img src='img/mx.png'>"
+language[12] = "de-DE";
+languageIndex [12] = "Deutsch - Deutschland";
+languageFlag[12]= "<img src='img/de.png'>"
+language[13] = "de-AT";
+languageIndex [13] = "Deutsch - Österreicher";
+languageFlag[13]= "<img src='img/at.png'>"
+language[14] = "ru-RU";
+languageIndex [14] = "Россия - русский";
+languageFlag[14]= "<img src='img/ru.png'>"
+language[15] = "ar-AR";
+languageIndex [15] = "العربية";
+languageFlag[15]= "<img src='img/iq.png'>"
+language[16] = "zh-CN";
+languageIndex [16] = "中国";
+languageFlag[16]= "<img src='img/cn.png'>"
 
 window.onload = function()
 {
@@ -196,7 +211,12 @@ $.confirm({
                       '<option value="8"> Português - Portugal </option>',  
                       '<option value="9"> Português - Brasil </option>',
                       '<option value="10"> Español - España </option>',  
-                      '<option value="11"> Español - México </option>',       
+                      '<option value="11"> Español - México </option>',   
+                      '<option value="12"> Deutsch - Deutschland </option>', 
+                      '<option value="13"> Deutsch - Österreicher </option>',  
+                      '<option value="14"> Россия - русский </option>',  
+                      '<option value="15">العربية </option>',  
+                      '<option value="16"> 中国 </option>',  
                       '</select>',
                       '</div></div></center></div>'
                   ].join('');
