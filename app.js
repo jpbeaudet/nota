@@ -87,9 +87,6 @@ db.once('open', function callback () {
 GLOBAL.username= "";
 require('./routes/routes')(app);
 
-
-
-
 var server = https.createServer(options, app);
 app.set('port', process.env.PORT || config.node_web_server_port);
 console.log(("Express server listening on port " + app.get('port')));
