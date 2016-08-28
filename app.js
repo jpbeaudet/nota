@@ -84,137 +84,11 @@ db.once('open', function callback () {
 });
  
 // routes
-var username= "";
+GLOBAL.username= "";
 require('./routes/routes')(app);
 
 
-app.post('/login', function(req, res,next) {
-    req.assert('username', 'required').notEmpty();
-    req.assert('username', 'valid email required').isEmail();
-    req.assert('password', 'required').notEmpty();
-    //req.assert('password', '6 to 20 characters required with at least 1 number, 1 upper case character and 1 special symbol').isStrongPassword();
 
-    var errors = req.validationErrors();
-
-    if (errors) {
-        return res.render("login", {errors: "Your email and password did not match. Please enter a valid email and password. "});
-    }
-	username = req.body.username;
-	
-	console.log(username);
-    next();
-//}, passport.authenticate('local-login', {
-}, passport.authenticate('local', {
-
-    successRedirect : '/home', // redirect to the secure account section
-    failureRedirect : '/login' ,// redirect back to the signup page if there is an error
-    failureFlash : true // allow flash messages
-}));
-
-	app.post('/newtitle', function(req, res){
-		var title = req.body.title
-		var MEMORY = mongoose.model('memory', memoryDb);
-			MEMORY.findOne({ username: username}, function (err, doc){
-				var query = {docA:doc.docA, docB:doc.docB, username: username,lastsaveA:doc.lastsaveA,lastsaveB:doc.lastsaveB},
-				    options = { multi: true };
-				  MEMORY.update(query, { docA: doc.docA , docB: doc.docB, username:username,lastsaveA:doc.docA,lastsaveB:doc.docB,title:title}, options, callback);
-				  function callback (err, numAffected) {
-					   //numAffected is the number of updated documents
-	
-						console.log("new title saving... = "+ doc);
-						res.redirect('/home')
-					};
-			});
-	});
-	app.get('/download_txt', function(req, res){
-		var file_content,
-		file_title ;
-		var fs = require('fs');
-		var filepath = path.join(__dirname, 'public/tmp/');
-		var MEMORY = mongoose.model('memory', memoryDb);
-		MEMORY.findOne({ username: username}, function (err, doc){
-			file_content=doc.docA+doc.docB;
-			file_content = file_content.replace('<div>',"").replace('</div>',"\n").replace('&nbsp',"	").replace('</br>',"\n").replace('<br >',"\n");
-
-		file_title = doc.title+".txt" || "Untitled.txt";
-		console.log("download has sent title= "+file_title+" content = "+file_content+" at path ="+ filepath);
-		//var file_title = "title.txt";
-		var md = file_content;
-		//var md = "foo===\n* bar\n* baz\n\nThis should be orking when i get text content";
-		fs.writeFile(filepath+ file_title, md, function(err) {
-			if(err) {
-				return console.log(err);
-			}
-			var file = filepath + file_title;
-			res.download(file); // Set disposition and send it.
-			// fs.unlinkSync(file);
-			console.log("The file was saved!");
-	}); 
-	});
-
-});
-
-	app.get('/email', function(req, res){
-		var file_content,
-		file_title ;
-		var fs = require('fs');
-		var util = require('util'),
-		exec = require('child_process').exec,
-		child;
-		var user = username;
-		var MEMORY = mongoose.model('memory', memoryDb);
-	
-		var filepath = path.join(__dirname, 'public/tmp/');
-		MEMORY.findOne({ username: username}, function (err, doc){
-			file_content=doc.docA+doc.docB;
-			file_content = file_content.replace('<div>',"").replace('</div>',"\n").replace('&nbsp',"	").replace('</br>',"\n").replace('<br >',"\n");
-		
-			file_title = doc.title+".txt" || "Untitled.txt";
-			var md = file_content;
-			file_title = file_title.replace(/ /g,"");
-			var args= (__dirname + '/script/'+ './sendingmail.sh "'+user+'" "'+file_title+'" "'+filepath+ file_title+'"' );
-			console.log("the request to sh sent = "+args);
-			fs.writeFile(filepath+ file_title, md, function(err) {
-				if(err) {
-				return console.log(err);
-						}
-				console.log("The file was saved!");
-					child = exec(args,
-					function (error, stdout, stderr) {
-					console.log('stdout: ' + stdout);
-					if (error !== null) {
-						console.log("email was sent to : "+req.user );
-					}else{
-						console.log('stderr: ' + stderr);	
-						}				    	    
-					});	
-					res.redirect("/home");
-					});
-			});
-	});
-	app.post('/register', function(req, res,next) {
-		req.assert('username', 'required').notEmpty();
-		req.assert('username', 'valid email required').isEmail();
-		req.assert('password', 'required').notEmpty();
-		//req.assert('password', '6 to 20 characters required with at least 1 number, 1 upper case character and 1 special symbol').isStrongPassword();
-
-		var errors = req.validationErrors();
-
-		if (errors) {
-			return res.render("register", {errors: " Invalid email or password. The password must contain numbers and at least a capital character. "});
-		}else{ 
-		Account.register(new Account({ username : req.body.username }), req.body.password, function(err, account) {
-		username = req.body.username;
-		var user = account
-		req.logIn(account, function(err) {
-        if (err) {
-          console.log(err);
-        }
-        return res.render('home', {user : user});
-      });
-	});
-	}
-})
 
 var server = https.createServer(options, app);
 app.set('port', process.env.PORT || config.node_web_server_port);
@@ -231,44 +105,44 @@ io.on('connection', function(socket){
 	memory.docB= "";
 	console.log("socket.io started on port"+ app.get('port'));
 	
-	MEMORY.findOne({ username: username}, function (err, doc){
+	MEMORY.findOne({ username: GLOBAL.username}, function (err, doc){
 		  if (err) return console.error(err);
-		  console.log("starting elements stored in "+ username+" db: docA,docB "+doc);
+		  console.log("starting elements stored in "+ GLOBAL.username+" db: docA,docB "+doc);
 
 	});
 	
 		socket.on("load",function(data){
 			//socket.join(username);
-			MEMORY.findOne({ username: username}, function (err, doc){
+			MEMORY.findOne({ username: GLOBAL.username}, function (err, doc){
 				
 			if(doc != null){
-			socket.emit("res.load", [doc.docA, doc.docB, username, doc.title, doc.language]);  
+			socket.emit("res.load", [doc.docA, doc.docB, GLOBAL.username, doc.title, doc.language]);  
 			}else{
-			var Memory = new MEMORY({ language:0, docA: "", docB: "" , username: username,lastsaveA:"",lastsaveB:"",title:"Untitled"});
+			var Memory = new MEMORY({ language:0, docA: "", docB: "" , username: GLOBAL.username,lastsaveA:"",lastsaveB:"",title:"Untitled"});
 			Memory.save(function (err, Memory) {
 			if (err) return console.error(err);
 			});
-			socket.emit("res.load", ["", "", username,"Untitled"]);   
+			socket.emit("res.load", ["", "", GLOBAL.username,"Untitled"]);   
 			//socket.to(username).emit("res.load", ["", "",username]);  
 			} 
 			});
 		});
 
 		socket.on("newtext",function(data){
-			MEMORY.findOne({ username: username}, function (err, doc){
-				var query = {docA:doc.docA, docB:doc.docB, username: username,lastsave:doc.lastsave},
+			MEMORY.findOne({ username: GLOBAL.username}, function (err, doc){
+				var query = {docA:doc.docA, docB:doc.docB, username: GLOBAL.username,lastsave:doc.lastsave},
 					options = { multi: true };
 					console.log(" query =  :"+ query);
-					MEMORY.update(query, { docA: "", docB: "", username: username,lastsaveA:"",lastsaveB:"",title:"Untitled"}, options, callback);
+					MEMORY.update(query, { docA: "", docB: "", username: GLOBAL.username,lastsaveA:"",lastsaveB:"",title:"Untitled"}, options, callback);
 					function callback (err, numAffected) {
 					};
 			});
 		});
 
 		socket.on("request",function(data){
-			MEMORY.findOne({ username: username}, function (err, doc){
+			MEMORY.findOne({ username: GLOBAL.username}, function (err, doc){
 				  console.log(" findOne did send :"+ doc);
-				  console.log(" last doc for :: doc.docA for" + username+"  :"+ doc.docA);
+				  console.log(" last doc for :: doc.docA for" + GLOBAL.username+"  :"+ doc.docA);
 					console.log("lastsave A >> request = "+ doc.lastsaveA );
 					console.log("lastsave B >> request = "+ doc.lastsaveB );
 					console.log("doc.docA >> request = "+ doc.docA);
@@ -296,10 +170,10 @@ io.on('connection', function(socket){
 			console.log("json.data= "+ json.data);
 			if(json.data != lock){
 				lock = json.data;
-			MEMORY.findOne({ username: username}, function (err, doc){
-				var query = { docA:doc.docA, docB:doc.docB, username: username,lastsaveA:doc.lastsaveA,lastsaveB:doc.lastsaveB},
+			MEMORY.findOne({ username: GLOBAL.username}, function (err, doc){
+				var query = { docA:doc.docA, docB:doc.docB, username: GLOBAL.username,lastsaveA:doc.lastsaveA,lastsaveB:doc.lastsaveB},
 				    options = { multi: true };
-				  MEMORY.update(query, { language:language, docA: memory.docA , docB: memory.docB, username: username,lastsaveA:doc.docA,lastsaveB:doc.docB,title:title}, options, callback);
+				  MEMORY.update(query, { language:language, docA: memory.docA , docB: memory.docB, username: GLOBAL.username,lastsaveA:doc.docA,lastsaveB:doc.docB,title:title}, options, callback);
 				  function callback (err, numAffected) {
 					   //numAffected is the number of updated documents
 	
@@ -308,7 +182,7 @@ io.on('connection', function(socket){
 						console.log("lastsave B >> db = "+ doc.lastsaveB );
 						console.log("memory A >> db= "+ doc.docA );
 						console.log("memory B >> db= "+ doc.docB );
-						console.log("username >> save= "+ username);
+						console.log("username >> save= "+ GLOBAL.username);
 						console.log("language >> save= "+ language);
 					};
 			});

@@ -43,8 +43,136 @@ module.exports = function (app) {
 	app.get('/ping', function(req, res){
 		res.send("pong!", 200);
 	});
+	
+app.post('/login', function(req, res,next) {
+    req.assert('username', 'required').notEmpty();
+    req.assert('username', 'valid email required').isEmail();
+    req.assert('password', 'required').notEmpty();
+    //req.assert('password', '6 to 20 characters required with at least 1 number, 1 upper case character and 1 special symbol').isStrongPassword();
 
+    var errors = req.validationErrors();
 
+    if (errors) {
+        return res.render("login", {errors: "Your email and password did not match. Please enter a valid email and password. "});
+    }
+	GLOBAL.username = req.body.username;
+	
+	console.log(GLOBAL.username);
+    next();
+//}, passport.authenticate('local-login', {
+}, passport.authenticate('local', {
+
+    successRedirect : '/home', // redirect to the secure account section
+    failureRedirect : '/login' ,// redirect back to the signup page if there is an error
+    failureFlash : true // allow flash messages
+}));
+
+	app.post('/newtitle', function(req, res){
+		var title = req.body.title
+		var MEMORY = mongoose.model('memory', memoryDb);
+			MEMORY.findOne({ username: GLOBAL.username}, function (err, doc){
+				var query = {docA:doc.docA, docB:doc.docB, username: GLOBAL.username,lastsaveA:doc.lastsaveA,lastsaveB:doc.lastsaveB},
+				    options = { multi: true };
+				  MEMORY.update(query, { docA: doc.docA , docB: doc.docB, username:GLOBAL.username,lastsaveA:doc.docA,lastsaveB:doc.docB,title:title}, options, callback);
+				  function callback (err, numAffected) {
+					   //numAffected is the number of updated documents
+	
+						console.log("new title saving... = "+ doc);
+						res.redirect('/home')
+					};
+			});
+	});
+	app.get('/download_txt', function(req, res){
+		var file_content,
+		file_title ;
+		var fs = require('fs');
+		var filepath = path.join(__dirname, 'public/tmp/');
+		var MEMORY = mongoose.model('memory', memoryDb);
+		MEMORY.findOne({ username: GLOBAL.username}, function (err, doc){
+			file_content=doc.docA+doc.docB;
+			file_content = file_content.replace('<div>',"").replace('</div>',"\n").replace('&nbsp',"	").replace('</br>',"\n").replace('<br >',"\n");
+
+		file_title = doc.title+".txt" || "Untitled.txt";
+		console.log("download has sent title= "+file_title+" content = "+file_content+" at path ="+ filepath);
+		//var file_title = "title.txt";
+		var md = file_content;
+		//var md = "foo===\n* bar\n* baz\n\nThis should be orking when i get text content";
+		fs.writeFile(filepath+ file_title, md, function(err) {
+			if(err) {
+				return console.log(err);
+			}
+			var file = filepath + file_title;
+			res.download(file); // Set disposition and send it.
+			// fs.unlinkSync(file);
+			console.log("The file was saved!");
+	}); 
+	});
+
+});
+
+	app.get('/email', function(req, res){
+		var file_content,
+		file_title ;
+		var fs = require('fs');
+		var util = require('util'),
+		exec = require('child_process').exec,
+		child;
+		var user = GLOBAL.username;
+		var MEMORY = mongoose.model('memory', memoryDb);
+	
+		var filepath = path.join(__dirname, 'public/tmp/');
+		MEMORY.findOne({ username: username}, function (err, doc){
+			file_content=doc.docA+doc.docB;
+			file_content = file_content.replace('<div>',"").replace('</div>',"\n").replace('&nbsp',"	").replace('</br>',"\n").replace('<br >',"\n");
+		
+			file_title = doc.title+".txt" || "Untitled.txt";
+			var md = file_content;
+			file_title = file_title.replace(/ /g,"");
+			var args= (__dirname + '/script/'+ './sendingmail.sh "'+user+'" "'+file_title+'" "'+filepath+ file_title+'"' );
+			console.log("the request to sh sent = "+args);
+			fs.writeFile(filepath+ file_title, md, function(err) {
+				if(err) {
+				return console.log(err);
+						}
+				console.log("The file was saved!");
+					child = exec(args,
+					function (error, stdout, stderr) {
+					console.log('stdout: ' + stdout);
+					if (error !== null) {
+						console.log("email was sent to : "+req.user );
+					}else{
+						console.log('stderr: ' + stderr);	
+						}				    	    
+					});	
+					res.redirect("/home");
+					});
+			});
+	});
+	app.post('/register', function(req, res,next) {
+		req.assert('username', 'required').notEmpty();
+		req.assert('username', 'valid email required').isEmail();
+		req.assert('password', 'required').notEmpty();
+		//req.assert('password', '6 to 20 characters required with at least 1 number, 1 upper case character and 1 special symbol').isStrongPassword();
+
+		var errors = req.validationErrors();
+
+		if (errors) {
+			return res.render("register", {errors: " Invalid email or password. The password must contain numbers and at least a capital character. "});
+		}else{ 
+		Account.register(new Account({ username : req.body.username }), req.body.password, function(err, account) {
+		GLOBAL.username = req.body.username;
+		var user = account
+		req.logIn(account, function(err) {
+        if (err) {
+          console.log(err);
+        }
+        return res.render('home', {user : user});
+      });
+	});
+	}
+})
+
+	// SCRIPT SECTION =================================
 	
 	app.get('/speech.js', function(req, res) {
 		res.set('Content-Type', 'text/javascript');
@@ -68,7 +196,10 @@ module.exports = function (app) {
 			user : req.user
 		});
 	});
-  
+	
+	
+	
+   // ERROR SECTION ===============================
 	app.use(function (err, req, res, next) {
 		// treat as 404
 		if (err.message
