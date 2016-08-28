@@ -7,18 +7,25 @@ var _USERNAME;
 var strUser;
 var language = new Array();
 var languageIndex = new Array();
+var languageFlag = new Array();
 language[0] = "en-EN";
 languageIndex[0] = "English";
+languageFlag[0]= "<img src='img/us-uk.png'>"
 language[1] = "en-US";
 languageIndex [1] = "English - United States";
+languageFlag[1]= "<img src='img/us.png'>"
 language[2] = "en-CA";
 languageIndex [2] = "English - Canada";
+languageFlag[2]= "<img src='img/ca.png'>"
 language[3] = "en-GB";
 languageIndex [3] = "English - Great Britain";
+languageFlag[3]= "<img src='img/uk.png'>"
 language[4] = "en-AU";
+languageFlag[4]= "<img src='img/au.png'>"
 languageIndex [4] = "English - Australia";
 language[5] = "en-NZ";
 languageIndex [5] = "English - New Zeeland";
+languageFlag[5]= "<img src='img/nz.png'>"
 
 window.onload = function()
 {
@@ -34,7 +41,8 @@ window.onload = function()
 		if( strUser== undefined){
 			strUser = 0
 		}
-   	    language_span.innerHTML = languageIndex[strUser];
+   	    language_span.innerHTML =  languageFlag[strUser]+"&nbsp"+languageIndex[strUser];
+   	    //document.getElementById('#language_flag').src =
 		welcome_span.innerHTML = "Welcome "+ _USERNAME;
 		title_span.innerHTML = "<h1>"+title+"</h1>";
 		icon_span.innerHTML = "<img src='images/blinking-cursor.GIF', height='25'>";
@@ -183,7 +191,7 @@ $.confirm({
         	 recognition.lang = language[strUser];
         	 console.log(" recognition.lang= " +  recognition.lang);
         	 console.log(" language[strUser].index= " + languageIndex[strUser]);
-        	 language_span.innerHTML = languageIndex[strUser];
+        	 language_span.innerHTML = languageFlag[strUser]+"&nbsp"+languageIndex[strUser];
 			});
 	}
 });
