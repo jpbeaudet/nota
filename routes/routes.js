@@ -21,8 +21,6 @@ module.exports = function (app) {
 		res.render('oups', {message: "You need to use Google Chrome or Chromium to use smartnotes."});
 	});
   
-
-
 	app.get('/home', function(req, res) {
 		if(!req.user){
 			res.redirect('/');
@@ -44,28 +42,24 @@ module.exports = function (app) {
 		res.send("pong!", 200);
 	});
 	
-app.post('/login', function(req, res,next) {
-    req.assert('username', 'required').notEmpty();
-    req.assert('username', 'valid email required').isEmail();
-    req.assert('password', 'required').notEmpty();
-    //req.assert('password', '6 to 20 characters required with at least 1 number, 1 upper case character and 1 special symbol').isStrongPassword();
-
-    var errors = req.validationErrors();
-
-    if (errors) {
-        return res.render("login", {errors: "Your email and password did not match. Please enter a valid email and password. "});
-    }
-	GLOBAL.username = req.body.username;
-	
-	console.log(GLOBAL.username);
-    next();
-//}, passport.authenticate('local-login', {
-}, passport.authenticate('local', {
-
-    successRedirect : '/home', // redirect to the secure account section
-    failureRedirect : '/login' ,// redirect back to the signup page if there is an error
-    failureFlash : true // allow flash messages
-}));
+	app.post('/login', function(req, res,next) {
+		req.assert('username', 'required').notEmpty();
+		req.assert('username', 'valid email required').isEmail();
+		req.assert('password', 'required').notEmpty();
+		//req.assert('password', '6 to 20 characters required with at least 1 number, 1 upper case character and 1 special symbol').isStrongPassword();
+		var errors = req.validationErrors();
+		if (errors) {
+			return res.render("login", {errors: "Your email and password did not match. Please enter a valid email and password. "});
+		}
+		GLOBAL.username = req.body.username;
+		console.log(GLOBAL.username);
+		next();
+		
+	}, passport.authenticate('local', {
+		successRedirect : '/home', // redirect to the secure account section
+		failureRedirect : '/login' ,// redirect back to the signup page if there is an error
+		failureFlash : true // allow flash messages
+	}));
 
 	app.post('/newtitle', function(req, res){
 		var title = req.body.title
@@ -91,23 +85,18 @@ app.post('/login', function(req, res,next) {
 		MEMORY.findOne({ username: GLOBAL.username}, function (err, doc){
 			file_content=doc.docA+doc.docB;
 			file_content = file_content.replace('<div>',"").replace('</div>',"\n").replace('&nbsp',"	").replace('</br>',"\n").replace('<br >',"\n");
-
-		file_title = doc.title+".txt" || "Untitled.txt";
-		console.log("download has sent title= "+file_title+" content = "+file_content+" at path ="+ filepath);
-		//var file_title = "title.txt";
-		var md = file_content;
-		//var md = "foo===\n* bar\n* baz\n\nThis should be orking when i get text content";
-		fs.writeFile(filepath+ file_title, md, function(err) {
-			if(err) {
-				return console.log(err);
-			}
-			var file = filepath + file_title;
-			res.download(file); // Set disposition and send it.
-			// fs.unlinkSync(file);
-			console.log("The file was saved!");
-	}); 
-	});
-
+			file_title = doc.title+".txt" || "Untitled.txt";
+			console.log("download has sent title= "+file_title+" content = "+file_content+" at path ="+ filepath);
+			var md = file_content;
+			fs.writeFile(filepath+ file_title, md, function(err) {
+				if(err) {
+					return console.log(err);
+				}
+				var file = filepath + file_title;
+				res.download(file); // Set disposition and send it.
+				console.log("The file was saved!");
+			}); 
+		});
 });
 
 	app.get('/email', function(req, res){
@@ -141,13 +130,14 @@ app.post('/login', function(req, res,next) {
 					if (error !== null) {
 						console.log("email was sent to : "+req.user );
 					}else{
-						console.log('stderr: ' + stderr);	
-						}				    	    
+						console.log('stderr: ' + stderr);
+						} 
 					});	
 					res.redirect("/home");
 					});
 			});
 	});
+	
 	app.post('/register', function(req, res,next) {
 		req.assert('username', 'required').notEmpty();
 		req.assert('username', 'valid email required').isEmail();
