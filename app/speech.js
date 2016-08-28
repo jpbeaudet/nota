@@ -49,7 +49,7 @@ if ('webkitSpeechRecognition' in window) {
         	interim = ""; 
         	var request="";
         	
-        	var request = controls(txt) ;
+        	var request = controls(txt, strUser) ;
         	restart(); 
         	
         	

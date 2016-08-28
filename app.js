@@ -100,6 +100,7 @@ app.post('/login', function(req, res,next) {
         return res.render("login", {errors: "Your email and password did not match. Please enter a valid email and password. "});
     }
 	username = req.body.username;
+	
 	console.log(username);
     next();
 //}, passport.authenticate('local-login', {
@@ -191,6 +192,30 @@ app.post('/login', function(req, res,next) {
 					});
 			});
 	});
+	app.post('/register', function(req, res,next) {
+		req.assert('username', 'required').notEmpty();
+		req.assert('username', 'valid email required').isEmail();
+		req.assert('password', 'required').notEmpty();
+		//req.assert('password', '6 to 20 characters required with at least 1 number, 1 upper case character and 1 special symbol').isStrongPassword();
+
+		var errors = req.validationErrors();
+
+		if (errors) {
+			return res.render("register", {errors: " Invalid email or password. The password must contain numbers and at least a capital character. "});
+		}else{ 
+		Account.register(new Account({ username : req.body.username }), req.body.password, function(err, account) {
+		username = req.body.username;
+		var user = account
+		req.logIn(account, function(err) {
+        if (err) {
+          console.log(err);
+        }
+        return res.render('home', {user : user});
+      });
+	});
+	}
+})
+
 var server = https.createServer(options, app);
 app.set('port', process.env.PORT || config.node_web_server_port);
 console.log(("Express server listening on port " + app.get('port')));
@@ -217,9 +242,9 @@ io.on('connection', function(socket){
 			MEMORY.findOne({ username: username}, function (err, doc){
 				
 			if(doc != null){
-			socket.emit("res.load", [doc.docA, doc.docB,username,doc.title]);  
+			socket.emit("res.load", [doc.docA, doc.docB, username, doc.title, doc.language]);  
 			}else{
-			var Memory = new MEMORY({ docA: "", docB: "" , username: username,lastsaveA:"",lastsaveB:"",title:"Untitled"});
+			var Memory = new MEMORY({ language:0, docA: "", docB: "" , username: username,lastsaveA:"",lastsaveB:"",title:"Untitled"});
 			Memory.save(function (err, Memory) {
 			if (err) return console.error(err);
 			});
@@ -264,6 +289,7 @@ io.on('connection', function(socket){
 			memory.docB = data[2];
 			var json = data[3];
 			var title = data[4];
+			var language = data[5]
 			console.log("memory A >> before save= "+ memory.docA );
 			console.log("memory B >> before save= "+ memory.docB );
 			console.log("final JSON.stringify(json) in app = "+JSON.stringify(json));
@@ -271,9 +297,9 @@ io.on('connection', function(socket){
 			if(json.data != lock){
 				lock = json.data;
 			MEMORY.findOne({ username: username}, function (err, doc){
-				var query = {docA:doc.docA, docB:doc.docB, username: username,lastsaveA:doc.lastsaveA,lastsaveB:doc.lastsaveB},
+				var query = { docA:doc.docA, docB:doc.docB, username: username,lastsaveA:doc.lastsaveA,lastsaveB:doc.lastsaveB},
 				    options = { multi: true };
-				  MEMORY.update(query, { docA: memory.docA , docB: memory.docB, username: username,lastsaveA:doc.docA,lastsaveB:doc.docB,title:title}, options, callback);
+				  MEMORY.update(query, { language:language, docA: memory.docA , docB: memory.docB, username: username,lastsaveA:doc.docA,lastsaveB:doc.docB,title:title}, options, callback);
 				  function callback (err, numAffected) {
 					   //numAffected is the number of updated documents
 	
@@ -283,6 +309,7 @@ io.on('connection', function(socket){
 						console.log("memory A >> db= "+ doc.docA );
 						console.log("memory B >> db= "+ doc.docB );
 						console.log("username >> save= "+ username);
+						console.log("language >> save= "+ language);
 					};
 			});
 			}

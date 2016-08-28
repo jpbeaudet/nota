@@ -29,8 +29,10 @@ window.onload = function()
 		var docB =response[1];
 		_USERNAME =response[2];
 		var title = response[3];
+		var language = response[4];
+			strUser = language;
 		if( strUser== undefined){
-			strUser = 0;
+			strUser = 0
 		}
    	    language_span.innerHTML = languageIndex[strUser];
 		welcome_span.innerHTML = "Welcome "+ _USERNAME;
@@ -44,7 +46,7 @@ window.onload = function()
 });
 };
 
-	function controls (transcript) {		
+	function controls (transcript, language) {		
 		var index;		
 	   console.log("controls() fired");;	
 	  // start by building the index object which will contain all relevant info 
@@ -57,6 +59,7 @@ window.onload = function()
 		  var LastdocA = response[2];
 		  var LastdocB = response[3];
 		  var title = response[4];
+		  
 		  console.log('lastsaveA arrival= '+LastdocA);
 		  console.log('lastsaveB arrival = '+LastdocB);
 		  if(transcript == "\n"){
@@ -67,7 +70,7 @@ window.onload = function()
 		  words_span.innerHTML = " Words: "+ index.wordsTotal;
 		  console.log('lastsaveA = '+index.LastdocA);
 		  console.log('lastsaveB = '+index.LastdocB);
-		  return resp(transcript, index);
+		  return resp(transcript, index, language);
 		  
 	  });
 	
@@ -76,7 +79,7 @@ window.onload = function()
 	}//end of controls	
 	
 
-function resp(data, index){
+function resp(data, index, language){
 	console.log("response() fired");
 	var diction;
 	var doc = data;
@@ -96,7 +99,7 @@ function resp(data, index){
 	//final_span.innerHTML = " @@@->  " + doc + "  <-@@@ ";
 	diction = doc;  
 	var title = index.title;  
-	socket.emit("save", [data, pretext , afttext,json,title]);	
+	socket.emit("save", [data, pretext, afttext, json, title, language]);	
 	return false;
 	}
 

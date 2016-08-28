@@ -2,6 +2,7 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
 	var memoryDb = mongoose.Schema({
+	    language: Number,
 	    docA: String,
 	    docB: String,
 	    username: String,
