@@ -26,6 +26,24 @@ languageIndex [4] = "English - Australia";
 language[5] = "en-NZ";
 languageIndex [5] = "English - New Zeeland";
 languageFlag[5]= "<img src='img/nz.png'>"
+language[6] = "fr-FR";
+languageIndex [6] = "Francais - France";
+languageFlag[6]= "<img src='img/fr.png'>"
+language[7] = "fr-CA";
+languageIndex [7] = "Francais - Canada";
+languageFlag[7]= "<img src='img/ca.png'>"
+language[8] = "pt-PT";
+languageIndex [8] = "Português - Portugal";
+languageFlag[8]= "<img src='img/pt.png'>"
+language[9] = "pt-BR";
+languageIndex [9] = "Português - Brasil";
+languageFlag[9]= "<img src='img/bz.png'>"
+language[10] = "es-ES";
+languageIndex [10] = "Español - España";
+languageFlag[10]= "<img src='img/es.png'>"
+language[10] = "es-ES";
+languageIndex [11] = "Español - México";
+languageFlag[11]= "<img src='img/mx.png'>"
 
 window.onload = function()
 {
@@ -172,7 +190,13 @@ $.confirm({
                       '<option value="2"> English - Canada </option>',   
                       '<option value="3"> English - Great Britain</option>',
                       '<option value="4"> English - Australia </option>',  
-                      '<option value="5"> English - New Zeeland </option>',                       
+                      '<option value="5"> English - New Zeeland </option>',   
+                      '<option value="6"> Francais - France </option>',
+                      '<option value="7"> Francais - Canada </option>',   
+                      '<option value="8"> Português - Portugal </option>',  
+                      '<option value="9"> Português - Brasil </option>',
+                      '<option value="10"> Español - España </option>',  
+                      '<option value="11"> Español - México </option>',       
                       '</select>',
                       '</div></div></center></div>'
                   ].join('');
