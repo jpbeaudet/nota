@@ -15,11 +15,14 @@ var txt = "";
 var diction='';	
 
 
+//setTimeout(function(){
 
 if ('webkitSpeechRecognition' in window) {
+	
 	console.log('webSpeech recognition has started');
 	if( strUser== undefined){
 		strUser = 0;
+		
 	}
 	 console.log("strUser = " + strUser);
 	 console.log("language[strUser] = " + language[strUser]);
@@ -90,3 +93,4 @@ if ('webkitSpeechRecognition' in window) {
 	 }else{
 		 window.open("/oups");
 	 }
+//}, 400)

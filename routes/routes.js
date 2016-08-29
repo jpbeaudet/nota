@@ -66,16 +66,15 @@ module.exports = function (app) {
 		var MEMORY = mongoose.model('memory', memoryDb);
 			MEMORY.findOne({ username: GLOBAL.username}, function (err, doc){
 				var query = {docA:doc.docA, docB:doc.docB, username: GLOBAL.username,lastsaveA:doc.lastsaveA,lastsaveB:doc.lastsaveB},
-				    options = { multi: true };
-				  MEMORY.update(query, { docA: doc.docA , docB: doc.docB, username:GLOBAL.username,lastsaveA:doc.docA,lastsaveB:doc.docB,title:title}, options, callback);
-				  function callback (err, numAffected) {
-					   //numAffected is the number of updated documents
-	
+					options = { multi: true };
+					MEMORY.update(query, { docA: doc.docA , docB: doc.docB, username:GLOBAL.username,lastsaveA:doc.docA,lastsaveB:doc.docB,title:title}, options, callback);
+					function callback (err, numAffected) {
 						console.log("new title saving... = "+ doc);
 						res.redirect('/home')
 					};
 			});
 	});
+	
 	app.get('/download_txt', function(req, res){
 		var file_content,
 		file_title ;
@@ -97,7 +96,7 @@ module.exports = function (app) {
 				console.log("The file was saved!");
 			}); 
 		});
-});
+	});
 
 	app.get('/email', function(req, res){
 		var file_content,
@@ -108,12 +107,11 @@ module.exports = function (app) {
 		child;
 		var user = GLOBAL.username;
 		var MEMORY = mongoose.model('memory', memoryDb);
-	
 		var filepath = path.join(__dirname, 'public/tmp/');
+		
 		MEMORY.findOne({ username: username}, function (err, doc){
 			file_content=doc.docA+doc.docB;
 			file_content = file_content.replace('<div>',"").replace('</div>',"\n").replace('&nbsp',"	").replace('</br>',"\n").replace('<br >',"\n");
-		
 			file_title = doc.title+".txt" || "Untitled.txt";
 			var md = file_content;
 			file_title = file_title.replace(/ /g,"");
@@ -121,8 +119,8 @@ module.exports = function (app) {
 			console.log("the request to sh sent = "+args);
 			fs.writeFile(filepath+ file_title, md, function(err) {
 				if(err) {
-				return console.log(err);
-						}
+					return console.log(err);
+				}
 				console.log("The file was saved!");
 					child = exec(args,
 					function (error, stdout, stderr) {
@@ -143,9 +141,7 @@ module.exports = function (app) {
 		req.assert('username', 'valid email required').isEmail();
 		req.assert('password', 'required').notEmpty();
 		//req.assert('password', '6 to 20 characters required with at least 1 number, 1 upper case character and 1 special symbol').isStrongPassword();
-
 		var errors = req.validationErrors();
-
 		if (errors) {
 			return res.render("register", {errors: " Invalid email or password. The password must contain numbers and at least a capital character. "});
 		}else{ 
@@ -153,14 +149,14 @@ module.exports = function (app) {
 		GLOBAL.username = req.body.username;
 		var user = account
 		req.logIn(account, function(err) {
-        if (err) {
-          console.log(err);
-        }
-        return res.render('home', {user : user});
-      });
-	});
-	}
-})
+		if (err) {
+			console.log(err);
+		}
+		return res.render('home', {user : user});
+		});
+		});
+		}
+	})
 
 	// SCRIPT SECTION =================================
 	
@@ -223,5 +219,4 @@ module.exports = function (app) {
 		});
 		}
 	});
-
 };
